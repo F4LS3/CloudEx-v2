@@ -28,17 +28,15 @@ public class Wrapper {
                 "Wrapper\n");
 
         FileUtils.checkFiles();
-        this.client = new ConnectionClient(FileUtils.getConfig().getStorage().get("master-port").getAsInt(), FileUtils.getConfig().getStorage().get("master-host").getAsString());
+        this.client = new ConnectionClient(Integer.valueOf(FileUtils.getConfig().getStorage().get("master-port").toString().replace(".0", "")), FileUtils.getConfig().getStorage().get("master-host").toString());
         this.commandHandler = new CommandHandler();
         this.moduleLoader = new ModuleLoader();
         CloudAPI.getInstance().setWrapperClient(this.client);
 
         /* REGISTER PACKETS */
-        this.client.getPacketRegistry().registerPacket(new RejectionPacket());
-        this.client.getPacketRegistry().registerPacket(new AcceptancePacket());
         this.client.getPacketRegistry().registerPacket(new AuthenticationPacket());
-        this.client.getPacketRegistry().registerPacket(new CreateServerPacket());
-        this.client.getPacketRegistry().registerPacket(new KeepalivePacket());
+        this.client.getPacketRegistry().registerPacket(new CreateGroupPacket());
+        this.client.getPacketRegistry().registerPacket(new StatePacket());
 
         /* ADD HANDLER TO PIPELINE */
         this.client.getPipelineRegistry().registerHandler(new ConnectionClientHandler());

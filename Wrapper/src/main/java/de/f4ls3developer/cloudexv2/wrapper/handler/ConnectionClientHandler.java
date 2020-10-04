@@ -1,10 +1,8 @@
 package de.f4ls3developer.cloudexv2.wrapper.handler;
 
 import de.f4ls3developer.cloudexv2.cloudapi.netty.Packet;
-import de.f4ls3developer.cloudexv2.cloudapi.netty.packets.AcceptancePacket;
 import de.f4ls3developer.cloudexv2.cloudapi.netty.packets.AuthenticationPacket;
-import de.f4ls3developer.cloudexv2.cloudapi.netty.packets.KeepalivePacket;
-import de.f4ls3developer.cloudexv2.cloudapi.netty.packets.RejectionPacket;
+import de.f4ls3developer.cloudexv2.cloudapi.netty.packets.StatePacket;
 import de.f4ls3developer.cloudexv2.cloudapi.utils.Logger;
 import de.f4ls3developer.cloudexv2.wrapper.utils.FileUtils;
 import io.netty.channel.ChannelHandlerContext;
@@ -14,16 +12,24 @@ public class ConnectionClientHandler extends SimpleChannelInboundHandler<Packet>
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, Packet packet) throws Exception {
-        if(packet instanceof KeepalivePacket) {
-            ctx.channel().writeAndFlush(packet);
-        }
+        if(packet instanceof StatePacket) {
+            StatePacket statePacket = (StatePacket) packet;
 
-        if(packet instanceof RejectionPacket) {
-            Logger.warn("REJECTED: " + ((RejectionPacket) packet).getMessage());
-        }
+            if(statePacket.getStateId() == 200) {
+                Logger.log("[STATUS: OK/200] " + statePacket.getMessage());
 
-        if(packet instanceof AcceptancePacket) {
-            Logger.log("Success: " + ((AcceptancePacket) packet).getMessage());
+            } else if(statePacket.getStateId() == 401) {
+                Logger.warn("[STATUS: UNAUTHORIZED/400" + statePacket.getMessage());
+
+            } else if(statePacket.getStateId() == 500) {
+                Logger.error("[STATUS: INTERNAL_ERROR/500" + statePacket.getMessage());
+
+            } else if(statePacket.getStateId() == 201) {
+                Logger.log("[STATUS: CREATED/201] " + statePacket.getMessage());
+
+            } else {
+                Logger.warn("[STATUS: UNKNOWN] " + statePacket.getMessage());
+            }
         }
 
         ctx.fireChannelRead(packet);

@@ -12,6 +12,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.HashMap;
 
 public class FileUtils {
 
@@ -41,7 +42,7 @@ public class FileUtils {
             } else {
                 JsonReader reader = new JsonReader(new FileReader(configFile));
                 reader.setLenient(true);
-                config.setStorage(gson.fromJson(reader, JsonObject.class));
+                config.setStorage(gson.fromJson(reader, HashMap.class));
             }
 
             if(!keyFile.exists()) {

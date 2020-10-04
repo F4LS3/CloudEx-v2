@@ -1,35 +1,32 @@
 package de.f4ls3developer.cloudexv2.cloudapi.utils;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonNull;
-import com.google.gson.JsonObject;
+import java.util.HashMap;
 
 public class Document {
 
-    private JsonObject storage;
+    private HashMap<String, Object> storage;
 
     public Document() {
-        this.storage = new JsonObject();
+        this.storage = new HashMap<>();
     }
 
     public void put(String key, Object value) {
-        if (value == null) {
-            this.storage.add(key, JsonNull.INSTANCE);
-            return;
-        }
-        this.storage.add(key, new Gson().toJsonTree(value));
+        this.storage.put(key, value);
     }
 
-    public JsonElement get(String key) {
+    public void putAll(HashMap<String, Object> storage) {
+        this.storage.putAll(storage);
+    }
+
+    public Object get(String key) {
         return this.storage.get(key);
     }
 
-    public JsonObject getStorage() {
+    public HashMap<String, Object> getStorage() {
         return this.storage;
     }
 
-    public void setStorage(JsonObject storage) {
+    public void setStorage(HashMap<String, Object> storage) {
         this.storage = storage;
     }
 }

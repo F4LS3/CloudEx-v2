@@ -24,8 +24,9 @@ public class CommandHandler extends Thread {
             while ((line = reader.readLine()) != null) {
                 if((line = line.toLowerCase()).length() == 0) continue;
                 String[] args = line.split(" ");
+
                 if(this.commandRegistry.getCommands().containsKey(args[0])) {
-                    this.commandRegistry.getCommands().get(args[0]).execute(Arrays.copyOfRange(args, 1, this.commandRegistry.getCommands().size()));
+                    this.commandRegistry.getCommands().get(args[0]).execute(args);
 
                 } else {
                     Logger.warn("Command not found or not registered");

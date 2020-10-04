@@ -1,0 +1,26 @@
+{
+  "motd": [
+    "§8» §cCloudΞx §8| §cCloudSystem §8developed by §cf4ls3",
+    "§8» §cYour free and easy Cloud-Service"
+  ],
+  "tablist": [
+    [
+      "§8» §cCloudEx §8| §cCloudSystem §8«",
+      "§cYour free and easy Cloud-Service"
+    ],
+    [
+      "§8Your currently playing on §c%server%",
+      "§8We hope you enjoy the experience!"
+    ]
+  ],
+  "authentication-type": "uuid",
+  "port": 2000,
+  "port-range": "30000-40000",
+  "maintenance-motd": [
+    "§8» §cCloudΞx §8| §cCloudSystem §8developed by §cf4ls3",
+    "§8» §cCurrently the Network is in Maintenance"
+  ],
+  "bungee-startup": "bungee.jar",
+  "maintenance": false,
+  "spigot-startup": "spigot.jar"
+}
